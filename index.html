@@ -11,7 +11,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="NovaDrop" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <!-- black-translucent + viewport-fit=cover: la app ocupa toda la pantalla y el
+         área segura la gestiona el CSS (mobile-app.css). Es la combinación que usan
+         Nexus Flow y CardPDF; con "default" iOS mide 100vh con la barra de estado
+         y la barra inferior queda recortada. Al cambiarla hay que borrar la app de
+         la pantalla de inicio y volver a añadirla. -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)" />
     <meta name="format-detection" content="telephone=no" />
@@ -22,9 +27,19 @@
       html { background: #FFFFFF; }
       @media (prefers-color-scheme: dark) { html { background: #1A1A1A; } }
     </style>
-    <script type="module" crossorigin src="/novadrop-app/assets/index-CA-MdBJZ.js"></script>
-    <link rel="modulepreload" crossorigin href="/novadrop-app/assets/ConfirmModal-CewvLyxZ.js">
-    <link rel="stylesheet" crossorigin href="/novadrop-app/assets/index-Dm_VuyoL.css">
+    <script>
+      // iPhone con la app instalada: se marca antes del primer pintado para que
+      // el alto (100vh) ya sea el correcto al medir (ver mobile-app.css).
+      (function () {
+        var d = document.documentElement;
+        var ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        if (ios) d.classList.add('is-ios');
+        if (navigator.standalone === true || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)) d.classList.add('is-standalone');
+      })();
+    </script>
+    <script type="module" crossorigin src="/novadrop-app/assets/index-BpZAMeZE.js"></script>
+    <link rel="modulepreload" crossorigin href="/novadrop-app/assets/ConfirmModal-7GhMX1AA.js">
+    <link rel="stylesheet" crossorigin href="/novadrop-app/assets/index-DiWdrzNQ.css">
   <link rel="manifest" href="/novadrop-app/manifest.webmanifest"></head>
   <body>
     <div id="root"></div>
